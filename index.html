@@ -196,20 +196,54 @@
         :class="transitioning ? 'opacity-0 translate-x-6' : 'opacity-100 translate-x-0'"
         class="transition-all duration-300"
       >
-        <!-- Image -->
+        <!-- Image collage -->
         <div class="bg-white rounded-t-3xl overflow-hidden shadow-xl border border-sky-100 border-b-0">
-          <div class="relative w-full h-52 bg-gradient-to-br from-sky-100 to-amber-50 flex items-center justify-center overflow-hidden">
-            <!-- emoji fallback (behind image) -->
-            <span class="text-8xl opacity-20 select-none" x-text="questions[currentQ].emoji"></span>
-            <!-- drop p1.jpg … p10.jpg into /assets/ to show real photos -->
-            <img
-              :src="'/assets/' + imageFileNames[Math.floor(Math.random() * imageFileNames.length)]"
-              :alt="questions[currentQ].imgAlt"
-              class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
-              onerror="this.style.opacity='0'"
-            />
-            <!-- soft fade at bottom of image -->
-            <div class="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-white/70 to-transparent pointer-events-none"></div>
+          <div class="relative w-full h-52 bg-gradient-to-br from-sky-100 to-amber-50 overflow-hidden">
+
+            <!-- emoji fallback — visible through any slot whose image fails to load -->
+            <span
+              class="absolute inset-0 flex items-center justify-center text-8xl opacity-20 select-none z-0"
+              x-text="questions[currentQ].emoji"
+            ></span>
+
+            <!-- 3-photo collage: large left half + two stacked right halves -->
+            <!-- drop p1.jpg … p10.jpg into assets/ to activate; missing ones stay transparent -->
+            <div class="absolute inset-0 flex gap-0.5 z-10">
+
+              <!-- left: one tall photo -->
+              <div class="relative w-1/2 h-full overflow-hidden">
+                <img
+                  :src="'assets/' + collageImages[0]"
+                  :alt="questions[currentQ].imgAlt"
+                  class="w-full h-full object-cover"
+                  onerror="this.style.opacity='0'"
+                />
+              </div>
+
+              <!-- right: two stacked photos -->
+              <div class="relative w-1/2 h-full flex flex-col gap-0.5">
+                <div class="relative flex-1 overflow-hidden">
+                  <img
+                    :src="'assets/' + collageImages[1]"
+                    :alt="questions[currentQ].imgAlt"
+                    class="w-full h-full object-cover"
+                    onerror="this.style.opacity='0'"
+                  />
+                </div>
+                <div class="relative flex-1 overflow-hidden">
+                  <img
+                    :src="'assets/' + collageImages[2]"
+                    :alt="questions[currentQ].imgAlt"
+                    class="w-full h-full object-cover"
+                    onerror="this.style.opacity='0'"
+                  />
+                </div>
+              </div>
+
+            </div><!-- /collage grid -->
+
+            <!-- soft fade at bottom -->
+            <div class="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-20"></div>
           </div>
 
           <!-- Question text -->
@@ -373,8 +407,9 @@
       showBar:      false,     // triggers the animated score bar on results
 
       // ── Image pool (drop p1.jpg … p10.jpg into /assets/ to activate) ──
-      imageFileNames: ['p1.jpg', 'p2.jpg', 'p3.jpg', 'p4.jpg', 'p5.jpg',
-                       'p6.jpg', 'p7.jpg', 'p8.jpg', 'p9.jpg', 'p10.jpg'],
+      assetsImages:  ['p1.jpg', 'p2.jpg', 'p3.jpg', 'p4.jpg', 'p5.jpg',
+                      'p6.jpg', 'p7.jpg', 'p8.jpg', 'p9.jpg', 'p10.jpg'],
+      collageImages: [],   // 3 randomly-picked filenames for the current question
 
       // ── Questions ──────────────────────────────────────────
       questions: [
@@ -522,7 +557,23 @@
       },
 
       // ── Actions ────────────────────────────────────────────
+      init() {
+        this.pickCollage();   // pre-warm so first question has images ready
+      },
+
+      // Pick 3 distinct random images from assetsImages for the current collage
+      pickCollage() {
+        const pool  = [...this.assetsImages];
+        const picks = [];
+        for (let i = 0; i < 3; i++) {
+          const idx = Math.floor(Math.random() * pool.length);
+          picks.push(pool.splice(idx, 1)[0]);
+        }
+        this.collageImages = picks;
+      },
+
       startGame() {
+        this.pickCollage();
         this.screen = 'playing';
       },
 
@@ -538,9 +589,10 @@
 
         setTimeout(() => {
           if (this.currentQ < this.questions.length - 1) {
-            // Advance question, then slide card back in
+            // Advance question, pick fresh collage images, then slide card back in
             this.currentQ++;
             this.selected = null;
+            this.pickCollage();
             setTimeout(() => { this.transitioning = false; }, 40);
           } else {
             // Show results screen and fire confetti

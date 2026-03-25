@@ -114,16 +114,16 @@
     <div class="relative z-10 w-full max-w-sm anim-pop-in">
 
       <!-- Photo circle -->
-      <div class="relative mx-auto mb-4 w-32 h-32">
-        <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-yellow-400 shadow-2xl bg-sky-100 flex items-center justify-center">
-          <!-- emoji fallback (behind image) -->
+      <div class="relative mx-auto mb-4 w-40 h-40">
+        <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-yellow-400 shadow-lg bg-sky-100 flex items-center justify-center">
+          <!-- emoji fallback — shown if main.jpg is missing -->
           <span class="absolute text-5xl select-none z-0">👵</span>
-          <!-- drop main.jpg into assets/ to replace the emoji -->
+          <!-- profile photo — drop main.jpg into assets/ to activate -->
           <img
             src="assets/main.jpg"
             alt="מרים פרץ"
-            class="absolute inset-0 w-full h-full object-cover rounded-full z-10"
-            onerror="this.style.opacity='0'"
+            class="absolute inset-0 w-full h-full object-cover rounded-full z-10 transition-all duration-300"
+            onerror="this.style.display='none'"
           />
         </div>
         <span class="absolute -top-2 -left-2 text-3xl anim-wiggle select-none">🎂</span>

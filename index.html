@@ -95,7 +95,7 @@
     x-transition:leave="transition ease-in duration-250"
     x-transition:leave-start="opacity-100 scale-100"
     x-transition:leave-end="opacity-0 scale-95"
-    class="relative min-h-screen flex flex-col items-center justify-center p-6 text-center overflow-hidden"
+    class="relative h-screen flex flex-col items-center justify-center p-5 text-center overflow-hidden"
   >
 
     <!-- Floating gold stars (decorative) -->
@@ -114,11 +114,11 @@
     <div class="relative z-10 w-full max-w-sm anim-pop-in">
 
       <!-- Photo circle -->
-      <div class="relative mx-auto mb-6 w-44 h-44">
+      <div class="relative mx-auto mb-4 w-32 h-32">
         <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-yellow-400 shadow-2xl bg-sky-100 flex items-center justify-center">
           <!-- emoji fallback (behind image) -->
-          <span class="absolute text-6xl select-none z-0">👵</span>
-          <!-- drop miriam_main.jpg into /assets/ to replace the emoji -->
+          <span class="absolute text-5xl select-none z-0">👵</span>
+          <!-- drop miriam_main.jpg into assets/ to replace the emoji -->
           <img
             src="assets/miriam_main.jpg"
             alt="מרים פרץ"
@@ -126,16 +126,16 @@
             onerror="this.style.opacity='0'"
           />
         </div>
-        <span class="absolute -top-3 -left-3 text-4xl anim-wiggle select-none">🎂</span>
-        <span class="absolute -bottom-2 -right-2 text-3xl anim-float select-none">🎉</span>
+        <span class="absolute -top-2 -left-2 text-3xl anim-wiggle select-none">🎂</span>
+        <span class="absolute -bottom-1 -right-1 text-2xl anim-float select-none">🎉</span>
       </div>
 
       <!-- Titles -->
-      <p class="text-sky-500 font-bold text-lg mb-1 tracking-wide">🎊 משחק הטריוויה המיוחד של הנכדים 🎊</p>
-      <h1 class="text-5xl font-black text-sky-800 leading-tight mb-1">יום הולדת שמח</h1>
-      <h2 class="text-5xl font-black text-yellow-500 mb-5 anim-pulse-glow">מרים פרץ!</h2>
+      <p class="text-sky-500 font-bold text-base mb-1 tracking-wide">🎊 משחק הטריוויה המיוחד של הנכדים 🎊</p>
+      <h1 class="text-4xl font-black text-sky-800 leading-tight mb-1">יום הולדת שמח</h1>
+      <h2 class="text-4xl font-black text-yellow-500 mb-3 anim-pulse-glow">מרים פרץ!</h2>
 
-      <p class="text-slate-600 text-lg leading-relaxed mb-8 px-1">
+      <p class="text-slate-600 text-base leading-relaxed mb-6 px-1">
         כמה אתם מכירים את הסבתא המדהימה שלכם?<br />
         <span class="font-bold text-sky-700">14 שאלות</span> חכמות מחכות לכם!
       </p>
@@ -143,7 +143,7 @@
       <!-- Start button -->
       <button
         @click="startGame()"
-        class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 text-sky-900 font-black text-2xl py-5 rounded-3xl shadow-xl border-b-4 border-amber-500 active:border-b-0 active:translate-y-1 transition-all duration-150 hover:scale-105 hover:-translate-y-0.5"
+        class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 text-sky-900 font-black text-xl py-4 rounded-3xl shadow-xl border-b-4 border-amber-500 active:border-b-0 active:translate-y-1 transition-all duration-150 hover:scale-105 hover:-translate-y-0.5"
       >
         🚀 בואו נתחיל!
       </button>
@@ -162,20 +162,20 @@
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
-    class="min-h-screen flex flex-col items-center py-6 px-4"
+    class="h-screen flex flex-col items-center py-3 px-4 overflow-hidden"
   >
-    <div class="w-full max-w-lg">
+    <div class="w-full max-w-lg flex flex-col flex-1 min-h-0">
 
       <!-- Header: label + dot indicators -->
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2 flex-shrink-0">
         <span class="text-sky-600 font-bold text-sm" x-text="`שאלה ${currentQ + 1} מתוך ${questions.length}`"></span>
-        <div class="flex gap-1.5 items-center">
+        <div class="flex gap-1 items-center">
           <template x-for="(_, i) in questions" :key="i">
             <div
               :class="{
-                'w-4 h-4 bg-sky-500 ring-2 ring-sky-300': i === currentQ,
-                'w-3 h-3 bg-yellow-400':                  i <  currentQ,
-                'w-3 h-3 bg-sky-200':                     i >  currentQ
+                'w-3 h-3 bg-sky-500 ring-2 ring-sky-300': i === currentQ,
+                'w-2 h-2 bg-yellow-400':                  i <  currentQ,
+                'w-2 h-2 bg-sky-200':                     i >  currentQ
               }"
               class="rounded-full transition-all duration-300"
             ></div>
@@ -184,12 +184,15 @@
       </div>
 
       <!-- Gold progress bar -->
-      <div class="w-full bg-sky-100 rounded-full h-3 overflow-hidden shadow-inner mb-5">
+      <div class="w-full bg-sky-100 rounded-full h-2 overflow-hidden shadow-inner mb-3 flex-shrink-0">
         <div
           class="h-full rounded-full bg-gradient-to-r from-yellow-400 to-amber-400 transition-all duration-700 ease-out"
           :style="`width: ${((currentQ + 1) / questions.length) * 100}%`"
         ></div>
       </div>
+
+      <!-- Scrollable question area -->
+      <div class="flex-1 overflow-y-auto min-h-0">
 
       <!-- Question card (slides + fades on question change) -->
       <div
@@ -198,19 +201,19 @@
       >
         <!-- Image collage -->
         <div class="bg-white rounded-t-3xl overflow-hidden shadow-xl border border-sky-100 border-b-0">
-          <div class="relative w-full h-52 bg-gradient-to-br from-sky-100 to-amber-50 overflow-hidden">
+          <div class="relative w-full h-36 bg-gradient-to-br from-sky-100 to-amber-50 overflow-hidden">
 
             <!-- emoji fallback — visible through any slot whose image fails to load -->
             <span
-              class="absolute inset-0 flex items-center justify-center text-8xl opacity-20 select-none z-0"
+              class="absolute inset-0 flex items-center justify-center text-7xl opacity-20 select-none z-0"
               x-text="questions[currentQ].emoji"
             ></span>
 
-            <!-- 3-photo collage: large left half + two stacked right halves -->
-            <!-- drop p1.jpg … p10.jpg into assets/ to activate; missing ones stay transparent -->
+            <!-- 2-photo collage: side by side -->
+            <!-- drop 1.jpg … 10.jpg into assets/ to activate; missing ones stay transparent -->
             <div class="absolute inset-0 flex gap-0.5 z-10">
 
-              <!-- left: one tall photo -->
+              <!-- left photo -->
               <div class="relative w-1/2 h-full overflow-hidden">
                 <img
                   :src="'assets/' + collageImages[0]"
@@ -220,41 +223,31 @@
                 />
               </div>
 
-              <!-- right: two stacked photos -->
-              <div class="relative w-1/2 h-full flex flex-col gap-0.5">
-                <div class="relative flex-1 overflow-hidden">
-                  <img
-                    :src="'assets/' + collageImages[1]"
-                    :alt="questions[currentQ].imgAlt"
-                    class="w-full h-full object-cover"
-                    onerror="this.style.opacity='0'"
-                  />
-                </div>
-                <div class="relative flex-1 overflow-hidden">
-                  <img
-                    :src="'assets/' + collageImages[2]"
-                    :alt="questions[currentQ].imgAlt"
-                    class="w-full h-full object-cover"
-                    onerror="this.style.opacity='0'"
-                  />
-                </div>
+              <!-- right photo -->
+              <div class="relative w-1/2 h-full overflow-hidden">
+                <img
+                  :src="'assets/' + collageImages[1]"
+                  :alt="questions[currentQ].imgAlt"
+                  class="w-full h-full object-cover"
+                  onerror="this.style.opacity='0'"
+                />
               </div>
 
             </div><!-- /collage grid -->
 
             <!-- soft fade at bottom -->
-            <div class="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-20"></div>
+            <div class="absolute bottom-0 inset-x-0 h-8 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-20"></div>
           </div>
 
           <!-- Question text -->
-          <div class="px-5 pt-4 pb-5">
-            <h2 class="text-2xl font-extrabold text-sky-900 leading-snug" x-text="questions[currentQ].q"></h2>
+          <div class="px-4 pt-3 pb-3">
+            <h2 class="text-xl font-extrabold text-sky-900 leading-snug" x-text="questions[currentQ].q"></h2>
           </div>
         </div>
 
         <!-- Answer options -->
-        <div class="bg-white rounded-b-3xl shadow-xl border border-sky-100 border-t-0 px-5 pb-5 mb-4">
-          <div class="flex flex-col gap-3 pt-2">
+        <div class="bg-white rounded-b-3xl shadow-xl border border-sky-100 border-t-0 px-4 pb-3 mb-3">
+          <div class="flex flex-col gap-2 pt-2">
             <template x-for="(opt, i) in questions[currentQ].opts" :key="i">
               <button
                 @click="answer(i)"
@@ -265,7 +258,7 @@
                   'bg-red-50   border-red-400':   selected !== null && selected === i && i !== questions[currentQ].correct,
                   'bg-gray-50  border-gray-200 opacity-50': selected !== null && selected !== i && i !== questions[currentQ].correct
                 }"
-                class="w-full flex items-center gap-3 px-4 py-4 rounded-2xl border-2 transition-all duration-200 text-right disabled:cursor-default"
+                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl border-2 transition-all duration-200 text-right disabled:cursor-default"
               >
                 <!-- Letter / check / cross badge -->
                 <span
@@ -275,12 +268,12 @@
                     'bg-red-400   text-white':     selected !== null && selected === i && i !== questions[currentQ].correct,
                     'bg-gray-200  text-gray-400':  selected !== null && selected !== i && i !== questions[currentQ].correct
                   }"
-                  class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-extrabold transition-colors duration-200 select-none"
+                  class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-extrabold transition-colors duration-200 select-none"
                   x-text="selected !== null && i === questions[currentQ].correct
                            ? '✓'
                            : (selected !== null && selected === i ? '✗' : ['א','ב','ג','ד'][i])"
                 ></span>
-                <span class="flex-1 text-lg text-slate-700 font-semibold leading-snug" x-text="opt"></span>
+                <span class="flex-1 text-base text-slate-700 font-semibold leading-snug" x-text="opt"></span>
               </button>
             </template>
           </div>
@@ -293,14 +286,14 @@
           x-transition:enter-start="opacity-0 translate-y-4"
           x-transition:enter-end="opacity-100 translate-y-0"
           :class="isCorrect ? 'bg-green-50 border-green-300' : 'bg-amber-50 border-amber-300'"
-          class="rounded-2xl p-4 border-2 mb-4"
+          class="rounded-2xl px-4 py-3 border-2 mb-3"
         >
           <p
             :class="isCorrect ? 'text-green-700' : 'text-amber-700'"
-            class="font-extrabold text-base mb-1.5"
+            class="font-extrabold text-sm mb-1"
             x-text="isCorrect ? '🎉 כל הכבוד! תשובה נכונה!' : '😊 לא בדיוק... אבל הנה עובדה מגניבה:'"
           ></p>
-          <p class="text-slate-700 text-base leading-relaxed" x-text="questions[currentQ].fact"></p>
+          <p class="text-slate-700 text-sm leading-relaxed" x-text="questions[currentQ].fact"></p>
         </div>
 
         <!-- Next / Results button -->
@@ -310,11 +303,12 @@
           x-transition:enter-start="opacity-0 translate-y-3"
           x-transition:enter-end="opacity-100 translate-y-0"
           @click="next()"
-          class="w-full bg-gradient-to-r from-sky-500 to-sky-600 text-white font-black text-xl py-4 rounded-2xl shadow-lg border-b-4 border-sky-700 active:border-b-0 active:translate-y-1 transition-all duration-150 hover:scale-[1.02]"
+          class="w-full bg-gradient-to-r from-sky-500 to-sky-600 text-white font-black text-lg py-3 rounded-2xl shadow-lg border-b-4 border-sky-700 active:border-b-0 active:translate-y-1 transition-all duration-150 hover:scale-[1.02] mb-3"
           x-text="currentQ === questions.length - 1 ? '🏁 לתוצאות!' : 'שאלה הבאה ←'"
         ></button>
 
       </div><!-- /question card -->
+      </div><!-- /scrollable area -->
     </div>
   </div><!-- /playing -->
 
@@ -327,40 +321,40 @@
     x-transition:enter="transition ease-out duration-500"
     x-transition:enter-start="opacity-0 scale-90"
     x-transition:enter-end="opacity-100 scale-100"
-    class="min-h-screen flex flex-col items-center justify-center p-6 text-center"
+    class="h-screen flex flex-col items-center justify-center p-5 text-center overflow-hidden"
   >
     <div class="w-full max-w-sm anim-pop-in">
 
       <!-- Medal / trophy -->
-      <div class="text-8xl mb-3 select-none anim-wiggle" x-text="medal"></div>
+      <div class="text-6xl mb-2 select-none anim-wiggle" x-text="medal"></div>
 
-      <h2 class="text-3xl font-black text-sky-800 mb-1">סיימתם! 🎉</h2>
-      <p class="text-sky-600 text-xl font-bold mb-5" x-text="scoreTitle"></p>
+      <h2 class="text-2xl font-black text-sky-800 mb-1">סיימתם! 🎉</h2>
+      <p class="text-sky-600 text-lg font-bold mb-3" x-text="scoreTitle"></p>
 
       <!-- Score card -->
-      <div class="bg-white rounded-3xl shadow-xl border-2 border-yellow-300 p-6 mb-5">
-        <p class="text-sky-500 font-bold text-base mb-2">הציון שלכם:</p>
+      <div class="bg-white rounded-3xl shadow-xl border-2 border-yellow-300 p-4 mb-3">
+        <p class="text-sky-500 font-bold text-sm mb-1">הציון שלכם:</p>
 
-        <div class="flex items-end justify-center gap-1 mb-3">
-          <span class="text-8xl font-black text-yellow-500 leading-none" x-text="score"></span>
-          <span class="text-4xl font-black text-sky-300 leading-none mb-3" x-text="`/${questions.length}`"></span>
+        <div class="flex items-end justify-center gap-1 mb-2">
+          <span class="text-6xl font-black text-yellow-500 leading-none" x-text="score"></span>
+          <span class="text-3xl font-black text-sky-300 leading-none mb-2" x-text="`/${questions.length}`"></span>
         </div>
 
         <!-- Animated score bar -->
-        <div class="w-full bg-sky-100 rounded-full h-4 overflow-hidden shadow-inner mb-4">
+        <div class="w-full bg-sky-100 rounded-full h-3 overflow-hidden shadow-inner mb-3">
           <div
             class="h-full rounded-full bg-gradient-to-r from-yellow-400 to-amber-400 transition-all duration-1000 ease-out"
             :style="showBar ? `width:${Math.round((score / questions.length) * 100)}%` : 'width:0%'"
           ></div>
         </div>
 
-        <p class="text-slate-700 font-semibold text-base leading-relaxed" x-text="scoreSubtitle"></p>
+        <p class="text-slate-700 font-semibold text-sm leading-relaxed" x-text="scoreSubtitle"></p>
       </div>
 
       <!-- Family photo circle -->
-      <div class="relative mx-auto w-32 h-32 mb-6">
+      <div class="relative mx-auto w-24 h-24 mb-4">
         <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-yellow-400 shadow-lg bg-sky-100 flex items-center justify-center">
-          <span class="absolute text-5xl select-none z-0">👨‍👩‍👧‍👦</span>
+          <span class="absolute text-4xl select-none z-0">👨‍👩‍👧‍👦</span>
           <img
             src="assets/family.jpg"
             alt="המשפחה"
@@ -373,7 +367,7 @@
       <!-- ★ Hero CTA button ★ -->
       <button
         @click="hugConfetti()"
-        class="w-full bg-gradient-to-r from-pink-400 to-rose-400 text-white font-black text-xl py-5 rounded-3xl shadow-xl border-b-4 border-rose-500 active:border-b-0 active:translate-y-1 transition-all duration-150 hover:scale-105 mb-4 leading-snug anim-pulse-glow"
+        class="w-full bg-gradient-to-r from-pink-400 to-rose-400 text-white font-black text-lg py-3 rounded-3xl shadow-xl border-b-4 border-rose-500 active:border-b-0 active:translate-y-1 transition-all duration-150 hover:scale-105 mb-3 leading-snug anim-pulse-glow"
       >
         🤗 עכשיו הולכים לתת לסבתא חיבוק!
       </button>
@@ -381,7 +375,7 @@
       <!-- Restart -->
       <button
         @click="restart()"
-        class="w-full bg-white text-sky-500 font-bold text-base py-3 rounded-2xl border-2 border-sky-200 hover:bg-sky-50 transition-colors"
+        class="w-full bg-white text-sky-500 font-bold text-base py-2.5 rounded-2xl border-2 border-sky-200 hover:bg-sky-50 transition-colors"
       >
         🔄 לשחק שוב
       </button>
@@ -406,10 +400,10 @@
       transitioning: false,    // drives the slide-out/in animation between questions
       showBar:      false,     // triggers the animated score bar on results
 
-      // ── Image pool (drop p1.jpg … p10.jpg into /assets/ to activate) ──
-      assetsImages:  ['p1.jpg', 'p2.jpg', 'p3.jpg', 'p4.jpg', 'p5.jpg',
-                      'p6.jpg', 'p7.jpg', 'p8.jpg', 'p9.jpg', 'p10.jpg'],
-      collageImages: [],   // 3 randomly-picked filenames for the current question
+      // ── Image pool (drop 1.jpg … 10.jpg into assets/ to activate) ──
+      assetsImages:  ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg',
+                      '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg'],
+      collageImages: [],   // 2 randomly-picked filenames for the current question
 
       // ── Questions ──────────────────────────────────────────
       questions: [
@@ -561,11 +555,11 @@
         this.pickCollage();   // pre-warm so first question has images ready
       },
 
-      // Pick 3 distinct random images from assetsImages for the current collage
+      // Pick 2 distinct random images from assetsImages for the current collage
       pickCollage() {
         const pool  = [...this.assetsImages];
         const picks = [];
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
           const idx = Math.floor(Math.random() * pool.length);
           picks.push(pool.splice(idx, 1)[0]);
         }

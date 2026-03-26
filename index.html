@@ -78,10 +78,22 @@
 
 <body class="min-h-screen bg-gradient-to-br from-sky-100 via-white to-amber-50">
 
+<!-- Background music (plays after first user interaction) -->
+<audio id="bgMusic" src="assets/background.mp3" loop preload="auto"></audio>
+
 <!-- ════════════════════════════════════════════════════════════
      Alpine.js root — wraps the entire app
 ════════════════════════════════════════════════════════════ -->
 <div x-data="triviaGame()" x-cloak class="min-h-screen" dir="rtl">
+
+  <!-- ── Floating mute/unmute button ── -->
+  <button
+    @click="toggleMute()"
+    :title="musicMuted ? 'הפעל מוזיקה' : 'השתק מוזיקה'"
+    class="fixed top-3 left-3 z-50 w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-md border border-amber-200 bg-amber-50/80 backdrop-blur-sm hover:bg-amber-100 transition-all duration-200"
+  >
+    <span x-text="musicMuted ? '🔇' : '🎵'"></span>
+  </button>
 
 
   <!-- ┌──────────────────────────────────────────┐
@@ -142,7 +154,7 @@
 
       <!-- Start button -->
       <button
-        @click="startGame()"
+        @click="startGame(); document.getElementById('bgMusic').play();"
         class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 text-sky-900 font-black text-xl py-4 rounded-3xl shadow-xl border-b-4 border-amber-500 active:border-b-0 active:translate-y-1 transition-all duration-150 hover:scale-105 hover:-translate-y-0.5"
       >
         🚀 בואו נתחיל!
@@ -399,6 +411,7 @@
       score:        0,
       transitioning: false,    // drives the slide-out/in animation between questions
       showBar:      false,     // triggers the animated score bar on results
+      musicMuted:   false,     // tracks mute state for the floating button
 
       // ── Image pool (drop 1.jpg … 10.jpg into assets/ to activate) ──
       assetsImages:  ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg',
@@ -666,6 +679,12 @@
         this.showBar      = false;
         this.transitioning = false;
         this.screen       = 'start';
+      },
+
+      toggleMute() {
+        const audio = document.getElementById('bgMusic');
+        this.musicMuted = !this.musicMuted;
+        audio.muted = this.musicMuted;
       },
 
       // Extra confetti burst when the hug button is tapped
